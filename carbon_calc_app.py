@@ -6,7 +6,7 @@ import os
 # ------------------ CONFIG ------------------ #
 # Direct download link from OneDrive (must end with ?download=1)
 # Replace this with your actual converted OneDrive link
-ICE_DB_URL = "https://yourtenant.sharepoint.com/:x:/r/sites/.../Carbon%20Calc.xlsx?download=1"
+ICE_DB_PATH = "Carbon Calc.xlsx"  # Local file in the repo
 
 SAVE_FOLDER = "saved_calculations"
 os.makedirs(SAVE_FOLDER, exist_ok=True)
@@ -162,3 +162,4 @@ total_add, total_omit, net_change = update_totals()
 st.metric("Total Adds (kgCO₂e)", f"{total_add:,.2f}")
 st.metric("Total Omits (kgCO₂e)", f"{total_omit:,.2f}")
 st.metric("Net Change (kgCO₂e)", f"{net_change:,.2f}", delta=net_change)
+
