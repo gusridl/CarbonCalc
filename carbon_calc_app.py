@@ -4,24 +4,21 @@ import json
 import os
 
 # ------------------ CONFIG ------------------ #
-# Direct download link from OneDrive (must end with ?download=1)
-# Replace this with your actual converted OneDrive link
 ICE_DB_PATH = "Carbon Calc.xlsx"  # Local file in the repo
-
 SAVE_FOLDER = "saved_calculations"
 os.makedirs(SAVE_FOLDER, exist_ok=True)
 
 # ------------------ LOAD DATA ------------------ #
 @st.cache_data
-def load_ice_db(url):
-    df = pd.read_excel(url)
+def load_ice_db(path):
+    df = pd.read_excel(path)
     df['Material'] = df['Material'].fillna("").astype(str).str.strip()
     df['Sub-material'] = df['Sub-material'].fillna("").astype(str).str.strip()
     df['ICE DB Name'] = df['ICE DB Name'].fillna("").astype(str).str.strip()
     df['Units of declared unit'] = df['Units of declared unit'].fillna("").astype(str).str.strip()
     return df
 
-ice_db = load_ice_db(ICE_DB_URL)
+ice_db = load_ice_db(ICE_DB_PATH)
 
 # ------------------ SESSION STATE ------------------ #
 if "adds" not in st.session_state:
@@ -76,7 +73,7 @@ def delete_item(list_type, index):
         st.session_state.omits.pop(index)
 
 # ------------------ UI ------------------ #
-st.title("🌍 Embodied Carbon Calculator (Dynamic)")
+st.title("🌍 Embodied Carbon Calculator")
 
 # Calculation name & description
 col1, col2 = st.columns([2, 3])
@@ -162,4 +159,3 @@ total_add, total_omit, net_change = update_totals()
 st.metric("Total Adds (kgCO₂e)", f"{total_add:,.2f}")
 st.metric("Total Omits (kgCO₂e)", f"{total_omit:,.2f}")
 st.metric("Net Change (kgCO₂e)", f"{net_change:,.2f}", delta=net_change)
-
